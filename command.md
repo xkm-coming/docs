@@ -381,3 +381,324 @@ f：显示进程间的关系
 #### groups 显示用户所属组
 
 #### id 查看用户uid，gid和groups信息
+
+chmod 修改权限
+
+r（4）：读权限，可以读文件或内容
+
+w（2）：写权限，可以创建、删除、重命名文件，可修改文件内容
+
+x（1）：可执行权限，可以执行文件内容，可以访问目录中文件，切换到目录中
+
+u：所属用户
+
+g：所属用户组
+
+o：其他人
+
+a：用户、用户组和其他人
+
+```
+chmod u+r file：file的所属用户添加读权限
+
+chmod g-r file：file的所属用户组删去读权限
+
+chmod 775 file
+```
+
+
+
+#### rpm 软件包管理
+
+```
+-q：查询
+
+-ql：劣处软件包文件列表
+
+-qf：根据文件查找包名
+
+-qi：查看包信息
+
+-i：下载安装
+
+-v：显示命令执行过程信息
+
+-h：显示安装进度
+
+--force：强制安装
+
+--nodeps：忽略依赖
+
+--nodigest：忽略数字签名
+
+--nosignature：忽略签名
+
+-Uvh：更新
+
+-e：卸载
+
+--import：导入数字签名文件
+```
+
+#### yum 软件管理工具
+
+```
+-y：自动应答
+
+list：查看仓库的所有包
+
+list installed：查看已安装的所有包
+
+repolist：查看仓库列表
+
+install：下载
+
+remove：卸载
+
+update：更新
+
+clean up：清除仓库缓存文件
+```
+
+#### apt 
+
+apt = apt-get、apt-cache 和 apt-config 中最常用命令选项的集合
+
+```
+apt-cache search/apt list：查看仓库的包
+
+apt-cache show/apt show：查看装信息
+
+apt-get install/apt get：安装
+
+apt-get remove/apt remove：卸载
+
+apt-get update/apt update：更新软件索引文件
+
+apt-get purge/apt purge：删除（包含配置文件）
+
+apt-get upgrade/apt upgrade：升级
+```
+
+#### grep
+
+```
+--color=auto：高亮显示匹配到的内容
+
+-E：支持扩展正则表达式
+
+-P：支持PERL正则表达式
+
+-n：显示行号
+
+-i：忽略大小写
+
+-o：只匹配到内容
+
+-v：反向匹配
+
+-A N：匹配到行的后N行
+
+-B N：匹配到行的前N行
+
+-C N：匹配到行的前后N行
+```
+
+#### cut 从文件的每一行截取一部分内容
+
+```
+-d：分隔符
+
+-f：字段数
+
+-c：字符位置
+```
+
+#### sort 排序
+
+```
+-t：分隔符
+
+-k：字段数
+
+-r：逆序
+
+-n：以数字大小排序
+
+-u：去重
+```
+
+#### uniq 去重（去重前要先排序）
+
+```
+-c：统计重复次数
+```
+
+#### sed
+
+sed  options '[Address]Command;[Address]Command;...' FILE
+
+```
+option：
+
+-r：支持扩展正则
+
+-n：一直默认内容输出
+
+-i：直接修改源文件
+
+
+
+Address：
+
+空地址：匹配每一行
+
+N  ：N到最后一行
+
+N,M   ：N~M行
+
+
+
+Command：
+
+d：删除
+
+p：显示
+
+s///：替换
+```
+
+#### awk
+
+```
+-F：指定分隔符
+
+$1：第一个字段
+
+awk -F: '{print $1}' /etc/passwd
+```
+
+#### chkconfig
+
+在centos6上控制服务，需要init.d目录下有LSB风格的服务控制脚本
+
+```
+chkconfig --list：查看服务在不同运行级别是否开机启动
+
+chkconfig SERVICE_NAME on/off  ：开启/关闭服务
+
+chkconfig -add SERVICE：将自定义的服务脚本加入到chkconfig控制中
+```
+
+管理当前服务
+
+```
+/etc/init.d/NAME start|stop|restart|reload|status
+
+service NAME start|stop...
+```
+
+#### systemctl
+
+start：开启
+
+stop：关闭
+
+status：查看状态
+
+restart：重启 
+
+```
+systemctl start|stop|status|restart servicename
+
+systemctl enable sshd.service：开机自启动
+
+systemctl disable sshd.service：开机不启动
+```
+
+#### ps
+
+```
+-Z：查看SElinux属性
+```
+
+#### getenforce 查看SElinux状态
+
+enforcing ：开启 
+
+permissive：警告模式
+
+disabled：关闭
+
+```
+getenforce
+```
+
+#### setenforce 设置SElinux状态
+
+0：permissive模式
+
+1：enforcing模式
+
+#### docker
+
+```
+docker start/stop/restart 容器id     管理容器状态
+
+docker rm 容器Id   删除容器
+
+docker create 创建容器
+
+docker tag 给容器打标签
+
+docker ps查看所有容器的命令
+
+docker images 查看已下载的所有镜像
+
+docker pull 拉取镜像
+
+docker push 上传镜像
+
+docker search 搜寻镜像
+
+docker run 运行镜像启动容器
+
+docker rm 删除镜像
+
+docker attach 进入容器
+
+docker exec 进入容器（退出容器不会导致容器的停止）
+```
+
+#### mysql
+
+```
+mysql -u username -p password 进入数据库
+
+mysqldump -u username -p database_name table_name > file_name 备份
+
+在mysql交互界面：
+
+create database database_name； 创建数据库
+
+show databases；查看数据库
+
+drop database database_name；删除数据库（drop删除过程，delete删除数据）
+
+use database database_name；选库
+
+creat table table_name；创表
+
+insert into table_name 字段 values（记录）；往表中插入数据
+
+select 字段 from table；查看行
+
+delete from table_name where...；删除表内容
+
+update table_name ...；更新
+
+alter table table_name ...；修改
+```
+
+
+
