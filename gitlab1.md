@@ -2,7 +2,7 @@
 
 
 
-#### 一、在centos7上安装gitlab
+#### 一、在centos7上安装gitlab（在桥接模式下）
 
 ##### 1.下载基础依赖
 
@@ -82,7 +82,7 @@ gitlab-ctl reconfigure
 
 
 
-#### 二、配置仓库
+#### 二、用ssh的方式克隆仓库的操作
 
 
 
@@ -114,22 +114,30 @@ git config --global user.name "xkm"
 git config --global user.email "xkm@192.168.29.138"
 ```
 
+##### 5.克隆仓库
+
+```
+git clone git@6b6cdb3c87df:yunwei/docs.git
+```
+
 
 
 #### 三、git的用法
 
--**clone**：git clone 仓库的Url       克隆仓库
+- **clone**：git clone 仓库的Url       克隆仓库
 
 ```
--eg：git clone http://gitlab.xkm.com/root/gitlab.git
+git clone http://gitlab.xkm.com/root/gitlab.git
+
+git clone git@6b6cdb3c87df:yunwei/docs.git
 ```
 
 
 
--**init**：git init         初始化一个仓库
+- **init**：git init         初始化一个仓库
 
 ```
--eg：cd /root/xkm
+cd /root/xkm
 
 mkdir newproject
 
@@ -138,24 +146,22 @@ cd ./newproject
 git init
 ```
 
-
-
--**add**：git add .（.表示all），git add 1.txt 2.txt 把工作区的文件缓存到暂存区，为commit做好准备
+- **add**：git add .（.表示all），git add 1.txt 2.txt 把工作区的文件缓存到暂存区，为commit做好准备
 
 
 
--**commit**：git commit -m “附加的信息”  把暂存区的文件提交到本地仓库
+- **commit**：git commit -m “附加的信息”  把暂存区的文件提交到本地仓库
 
 ```
--eg：git commit -m “new profiles”
+git commit -m “new profiles”
 ```
 
 
 
--**push**：git push origin master 本地仓库把更新后的仓库上传到远程仓库，请求合并
+- **push**：git push origin master 本地仓库把更新后的仓库上传到远程仓库，请求合并
 
 ```
--eg：git add .
+git add .
 
 git commit -m "new profiles"
 
@@ -164,34 +170,30 @@ git push origin master
 
 
 
--**branch**：
+- **branch**：
 
 ```
--git branch littlexkm  #（littlexkm是创建的分支名字）创建分支
+git branch littlexkm  #（littlexkm是创建的分支名字）创建分支
 
--git branch  #查看分支，带*的是当前所处的分支名字
-```
-
-
-
--**diff**：
-
-```
--git diff #查看暂存器和工作区的差别
-
--git diff --cached #已经暂存起来的文件(staged)和上次提交时的快照之间(HEAD)的差异
+git branch  #查看分支，带*的是当前所处的分支名字
 ```
 
 
 
--**log**：git log 查看版本更新情况
+- **diff**：
 
 ```
--可以用git diff commitID commitID查看两版本之间的差别
+git diff #查看暂存器和工作区的差别
 
--可以用git reset --harder commitID回滚到之前的版本
+git diff --cached #已经暂存起来的文件(staged)和上次提交时的快照之间(HEAD)的差异
 ```
 
 
 
--**reflog**：git reflog  查看历史操作
+- **log**：git log 查看版本更新情况
+
+- **git diff commitID commitID** 查看两版本之间的差别
+
+- **git reset --harder commitID** 回滚到之前的版本
+
+- **reflog**：git reflog  查看历史操作
