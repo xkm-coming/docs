@@ -240,15 +240,13 @@ git diff --cached #已经暂存起来的文件(staged)和上次提交时的快�
 
   （3）workhorse 能接管向 Rails 组件询问操作权限后的请求，例如处理 git clone 之前得确认当前客户的权限，在向 Rails 组件询问确认后 workhorse 将继续接管 git clone 的请求
 
-  （4）workhorse 能修改发送给 Rails 组件之前的请求信息，例如：当处理 Git LFS 上传时，workhorse 首先向 Rails 组件询问当前用户是否有执行权限，然后它将请求体储存在一个临时文件里，接着它将修改过后的包含此临时文件路径的请求体发送给 Rails 组件
+  （4）workhorse 能修改发送给 Rails 组件之前的请求信息，例如：当处理 Git LFS 上传时，workhorse 首先向 Rails 组件询问当前用户是否有执行权限，然后它将请求体储存在一个临时文件里，接着它将修改过后的包含此临时文件路径的请求体发送给 Rails 组
 
-​       （5）workhorse 无法直接连接数据库，只能与 Rails 组件和 Redis 组件(可选)通信，所有到达 workhorse 的请求都是由上游代理服务器(nginx)转发
+  （5）workhorse 无法直接连接数据库，只能与 Rails 组件和 Redis 组件(可选)通信，所有到达 workhorse 的请求都是由上游代理服务器(nginx)转发
 
-​       （6）workhorse 不接受 https 连接
+  （6）workhorse 不接受 https 连接
 
-​       （7）workhorse 不会清除空闲客户端连接
-
-​       （8）所有对 Rails 组件的请求都得经过 workhorse
+  （7）workhorse 不会清除空闲客户端连接（8）所有对 Rails 组件的请求都得经过 workhorse
 
 ```
 +-----+  +------------------+  +---------+ 
