@@ -120,12 +120,15 @@ git config --global user.email "xkm@192.168.29.138"
 
 -**clone**：git clone 仓库的Url       克隆仓库
 
+```
 -eg：git clone http://gitlab.xkm.com/root/gitlab.git
+```
 
 
 
 -**init**：git init         初始化一个仓库
 
+```
 -eg：cd /root/xkm
 
 mkdir newproject
@@ -133,6 +136,7 @@ mkdir newproject
 cd ./newproject
 
 git init
+```
 
 
 
@@ -140,43 +144,53 @@ git init
 
 
 
--commit：git commit -m “附加的信息”  把暂存区的文件提交到本地仓库
+-**commit**：git commit -m “附加的信息”  把暂存区的文件提交到本地仓库
 
+```
 -eg：git commit -m “new profiles”
+```
 
 
 
 -**push**：git push origin master 本地仓库把更新后的仓库上传到远程仓库，请求合并
 
+```
 -eg：git add .
 
 git commit -m "new profiles"
 
 git push origin master
+```
 
 
 
 -**branch**：
 
--git branch littlexkm （littlexkm是创建的分支名字）创建分支
+```
+-git branch littlexkm  #（littlexkm是创建的分支名字）创建分支
 
--git branch 查看分支，带*的是当前所处的分支名字
+-git branch  #查看分支，带*的是当前所处的分支名字
+```
 
 
 
 -**diff**：
 
--git diff 查看暂存器和工作区的差别
+```
+-git diff #查看暂存器和工作区的差别
 
--git diff --cached已经暂存起来的文件(staged)和上次提交时的快照之间(HEAD)的差异
+-git diff --cached #已经暂存起来的文件(staged)和上次提交时的快照之间(HEAD)的差异
+```
 
 
 
 -**log**：git log 查看版本更新情况
 
+```
 -可以用git diff commitID commitID查看两版本之间的差别
 
 -可以用git reset --harder commitID回滚到之前的版本
+```
 
 
 
