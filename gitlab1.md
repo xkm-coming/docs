@@ -59,15 +59,24 @@ yum -y install gitlab-ce
 ```
 vim /etc/hosts
 
-#添加内容：192.168.29.138 gitlab.xkm.com
+```
+
+往hosts文件添加内容如下：
+
+```
+192.168.29.138 gitlab.xkm.com
 ```
 
 ##### 6.修改gitlab配置文件中的站点Url
 
 ```
 vim /etc/gitlab/gitlab.rb
+```
 
-#修改内容：将external_url后面的值改为：http：//gitlab.xkm.com
+将external_url后面的值改为：
+
+```
+http://gitlab.xkm.com
 ```
 
 ##### 7.重新配置并启动gitlab
@@ -76,157 +85,9 @@ vim /etc/gitlab/gitlab.rb
 gitlab-ctl reconfigure
 ```
 
-##### 8.访问http：//gitlab.xkm.com
+##### 8.访问http://gitlab.xkm.com即可
 
-- 创建仓库：按+New Project（可以在自己用户下创建，也可以在某个群组内创建），在project里面按Remove project可以删除项目：
-
-  1、私有库：只有被赋予权限的用户可见
-
-  2、内部库：登陆用户可以下载
-
-  3、公开库：所有人可以下载
-
-- 用户管理：按Admin Area按钮可以创建用户
-
-- 用户组管理：管理员才能使用，按New Group可以创建组，在左边界面按groups可以进入看到组的信息，按members可以编辑组员信息，按project可以管理组的项目
-
-  1、Guest(匿名用户)：可以创建issue，发表评论，不能读写版本库
-
-  2、Reporter（报告人）：可以克隆代码，不能提交（例如产品经理）
-
-  3、Developer（开发者）：可以克隆代码、开发、提交、push（例如开发人员）
-
-  4、maintainer（管理者）：可以创建项目、添加tag、保护分支、添加项目成员、编辑项目（例如核心开发人员）
-
-  5、Owner：可以设置项目访问权限、删除项目、迁移项目、管理组成员（例如开发组组长）
-
-  
-
-#### 二、用ssh的方式克隆仓库的操作
-
-
-
-##### 操作：
-
-##### 1.生成ssh的钥匙
-
-```
-ssh-keygen -t rsa 
-```
-
-##### 2.将新生成的key添加到ssh-agent中
-
-```
-eval "$(ssh-agent -s)"
-
-ssh-add ~/.ssh/id_rsa
-```
-
-##### 3.将公钥提取出来，加到新建成的仓库中
-
-复制粘贴到gitlab project中的ssh key中
-
-##### 4.创建个人信息
-
-```
-git config --global user.name "xkm"
-
-git config --global user.email "xkm@192.168.29.138"
-```
-
-##### 5.克隆仓库
-
-```
-git clone git@6b6cdb3c87df:yunwei/docs.git
-```
-
-
-
-#### 三、git的用法
-
-- **clone**：git clone 仓库的Url       克隆仓库
-
-```
-git clone http://gitlab.xkm.com/root/gitlab.git
-
-git clone git@6b6cdb3c87df:yunwei/docs.git
-```
-
-
-
-- **init**：git init         初始化一个仓库
-
-```
-cd /root/xkm
-
-mkdir newproject
-
-cd ./newproject
-
-git init
-```
-
-- **add**：git add .（.表示all），git add 1.txt 2.txt 把工作区的文件缓存到暂存区，为commit做好准备
-
-
-
-- **commit**：git commit -m “附加的信息”  把暂存区的文件提交到本地仓库
-
-```
-git commit -m “new profiles”
-```
-
-
-
-- **push**：git push origin master 本地仓库把更新后的仓库上传到远程仓库，请求合并
-
-```
-git add .
-
-git commit -m "new profiles"
-
-git push origin master
-```
-
-
-
-- **branch**：
-
-```
-git branch littlexkm  #（littlexkm是创建的分支名字）创建分支
-
-git branch  #查看分支，带*的是当前所处的分支名字
-```
-
-
-
-- **diff**：
-
-```
-git diff #查看暂存器和工作区的差别
-
-git diff --cached #已经暂存起来的文件(staged)和上次提交时的快照之间(HEAD)的差异
-```
-
-
-
-- **log**：git log 查看版本更新情况
-
-- **git diff commitID commitID** 查看两版本之间的差别
-
-- **git reset --harder commitID** 回滚到之前的版本
-
-  ```
-  git log    找到原本版本id
-  
-  git reset --hard 297ff2dcf20605297684f296a4b4ccaa1cf4dc48
-  
-  git push -f origin master  强制提交
-  ```
-
-- **reflog**：git reflog  查看历史操作
-
-#### 四、gitlab组件
+#### 二、gitlab组件认识
 
 - **repository**：代码库，可以是硬盘或分布式文件系统
 
@@ -260,9 +121,11 @@ NGINX +->| gitlab-workhorse +->| Unicorn |
 
   当用户以 SSH 的方式访问 GitLab 时(例如 git pull/push over ssh)，GitLab Shell 组件会做下列事情：
 
-  1. 限制用户使用预定义的 git 命令(git push, git pull 等)（防止用户登陆终端进行其他操作）
-  2. 调用 GitLab Rails 的 API 接口以检查用户是否已授权，以及判断用户通过哪台 Gitaly 服务器访问代码仓库(Gitaly 组件的主要功能是进行与代码仓库相关的操作)
-  3. 在 SSH 客户端和 Gitaly 服务器之间来回拷贝数据
+  1、限制用户使用预定义的 git 命令(git push, git pull 等)（防止用户登陆终端进行其他操作）
+
+  2、调用 GitLab Rails 的 API 接口以检查用户是否已授权，以及判断用户通过哪台 Gitaly 服务器访问代码仓库(Gitaly 组件的主要功能是进行与代码仓库相关的操作)
+
+  3、在 SSH 客户端和 Gitaly 服务器之间来回拷贝数据
 
 - **unicorn**：web服务器，提供动态网页和API接口，unicorn是多线程模型的Ruby web服务器，遵循Rack协议。gitlab的Rails应用程序是在unicorn服务器内运行的，而unicorn的多进程模型能提供更好的并发处理能力，并且提供更强的容错能力。多模型进程为：在生产环境需要在后台运行unicorn进程，首先会用fork方式创建一个进程，叫grandparent（启动unicorn的进程），再用fork方式创建parent进程（启动unicorn服务的进程），然后用fork方式创建第三个进程，叫master（unicorn服务中的主进程）：
 
@@ -283,4 +146,154 @@ NGINX +->| gitlab-workhorse +->| Unicorn |
 - **mail_room**：处理邮件请求。回复gitlab发出的邮件，gitlab会调用此服务来处理sidekiq、unicorn和gitlab-shell的任务
 
 - **logrotate**：日志文件管理、切割
+
+#### 三、gitlab-ctl命令认识
+
+gitlab-ctl status：查看gitlab组件状态
+
+gitlab-ctl start：启动全部服务
+
+gitlab-ctl restart：重启全部服务
+
+gitlab-ctl reconfigure：使配置文件生效
+
+gitlab-ct show-config：验证配置文件
+
+gitlab-ctl tail service_name：查看服务日志
+
+#### 四、gitlab的web页面操作
+
+一、项目管理
+
+1.创建项目：项目用三种属性可以选择：
+
+- 私有库：只有被赋予权限的用户可见
+- 内部库：登陆用户可以下载
+- 公开库：所有人可以下载
+
+二、用户管理：在网页上点击Admin Area可创建用户
+
+三、用户组管理：管理员添加组用户有五种属性可以选择：
+
+- Guest(匿名用户)：可以创建issue，发表评论，不能读写版本库
+
+- Reporter（报告人）：可以克隆代码，不能提交（例如产品经理）
+
+- Developer（开发者）：可以克隆代码、开发、提交、push（例如开发人员）
+
+- maintainer（管理者）：可以创建项目、添加tag、保护分支、添加项目成员、编辑项目（例如核心开发人员）
+
+- Owner：可以设置项目访问权限、删除项目、迁移项目、管理组成员（例如开发组组长）
+
+#### 五、克隆仓库的两种方法
+
+##### 一、通过http/https去访问仓库
+
+```
+git clone http://gitlab.xkm.com/root/gitlab.git
+```
+
+##### 二、通过ssh去访问仓库
+
+1.生成ssh的钥匙
+
+```
+ssh-keygen -t rsa 
+```
+
+2.将新生成的key添加到ssh-agent中
+
+```
+eval "$(ssh-agent -s)"
+
+ssh-add ~/.ssh/id_rsa
+```
+
+3.将公钥提取出来，加到新建成的仓库中
+
+复制粘贴到gitlab project中的ssh key中
+
+4.创建个人信息
+
+```
+git config --global user.name "xkm"
+
+git config --global user.email "xkm@192.168.29.138"
+```
+
+5.克隆仓库
+
+```
+git clone git@6b6cdb3c87df:yunwei/docs.git
+```
+
+#### 五、git的用法
+
+- **clone**：git clone 仓库的Url       克隆仓库
+
+```
+git clone http://gitlab.xkm.com/root/gitlab.git
+
+git clone git@6b6cdb3c87df:yunwei/docs.git
+```
+
+- **init**：git init         初始化一个仓库
+
+```
+cd /root/xkm
+
+mkdir newproject
+
+cd ./newproject
+
+git init
+```
+
+- **add**：git add .（.表示all），git add 1.txt 2.txt 把工作区的文件缓存到暂存区，为commit做好准备
+
+- **commit**：git commit -m “附加的信息”  把暂存区的文件提交到本地仓库
+
+```
+git commit -m “new profiles”
+```
+
+- **push**：git push origin master 本地仓库把更新后的仓库上传到远程仓库，请求合并
+
+```
+git add .
+
+git commit -m "new profiles"
+
+git push origin master
+```
+
+- **branch**：
+
+```
+git branch littlexkm  #（littlexkm是创建的分支名字）创建分支
+
+git branch  #查看分支，带*的是当前所处的分支名字
+```
+
+- **diff**：
+
+```
+git diff #查看暂存器和工作区的差别
+
+git diff --cached #已经暂存起来的文件(staged)和上次提交时的快照之间(HEAD)的差异
+```
+
+- **log**：git log 查看版本更新情况
+
+- **git diff commitID commitID** 查看两版本之间的差别
+
+- **git reset --harder commitID** 回滚到之前的版本
+
+  ```
+  git log    找到原本版本id
+  
+  git reset --hard 297ff2dcf20605297684f296a4b4ccaa1cf4dc48
+  
+  git push -f origin master  强制提交
+  ```
 
